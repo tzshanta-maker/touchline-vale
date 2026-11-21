@@ -1,6 +1,6 @@
 {
-  "name": "pitch-legends",
-  "version": "1.0.13",
+  "name": "touchline-vale",
+  "version": "1.0.14",
   "main": "desktop/main.cjs",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
@@ -8,13 +8,13 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "node tests/smoke.mjs",
     "desktop": "electron .",
-    "desktop:package": "npm run build && electron-packager . \"Pitch Legends\" --platform=win32,linux --arch=x64 --out=release --overwrite --asar --prune=true --icon=desktop/icon.ico --app-copyright=\"Pitch Legends\" --ignore=\"^(/release|/tests|/docs|/src|/android|/node_modules|/\\.git|/qa-.*|/package-lock\\.json|/dist/.*\\.map)\"",
-    "desktop:win": "npm run build && electron-packager . \"Pitch Legends\" --platform=win32 --arch=x64 --out=release --overwrite --asar --prune=true --icon=desktop/icon.ico --app-copyright=\"Pitch Legends\" --ignore=\"^(/release|/tests|/docs|/src|/android|/node_modules|/\\.git|/qa-.*|/package-lock\\.json|/dist/.*\\.map)\""
+    "desktop:package": "npm run build && electron-packager . \"Touchline Vale\" --platform=win32,linux --arch=x64 --out=release --overwrite --asar --prune=true --icon=desktop/icon.ico --app-copyright=\"Touchline Vale\" --ignore=\"^(/release|/tests|/docs|/src|/android|/node_modules|/\\.git|/qa-.*|/package-lock\\.json|/dist/.*\\.map)\"",
+    "desktop:win": "npm run build && electron-packager . \"Touchline Vale\" --platform=win32 --arch=x64 --out=release --overwrite --asar --prune=true --icon=desktop/icon.ico --app-copyright=\"Touchline Vale\" --ignore=\"^(/release|/tests|/docs|/src|/android|/node_modules|/\\.git|/qa-.*|/package-lock\\.json|/dist/.*\\.map)\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Pitch Legends \u2014 an original 3D eleven-a-side football game built with Three.js",
+  "description": "Touchline Vale \u2014 an original 3D eleven-a-side football game built with Three.js",
   "dependencies": {
     "@electron/packager": "^18.4.4",
     "three": "^0.187.0"

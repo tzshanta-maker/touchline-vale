@@ -1,5 +1,5 @@
 /**
- * Global tuning constants for Pitch Legends.
+ * Global tuning constants for Touchline Vale.
  * World units are metres. The pitch lies in the XZ plane with the long axis on Z.
  * Home team (player) defends z = -halfL and attacks z = +halfL.
  */

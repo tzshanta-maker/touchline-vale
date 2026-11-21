@@ -81,13 +81,13 @@ export class Input {
       this.pad.connected = true;
       this.pad.name = e.gamepad?.id || 'Gamepad';
       if (this.anyInputCallback) this.anyInputCallback();
-      window.dispatchEvent(new CustomEvent('pitchlegends-gamepad', { detail: this.pad }));
+      window.dispatchEvent(new CustomEvent('touchlinevale-gamepad', { detail: this.pad }));
     });
     window.addEventListener('gamepaddisconnected', () => {
       this.pad.connected = false;
       this.pad.name = '';
       this._padHeld.clear();
-      window.dispatchEvent(new CustomEvent('pitchlegends-gamepad', { detail: this.pad }));
+      window.dispatchEvent(new CustomEvent('touchlinevale-gamepad', { detail: this.pad }));
     });
   }
 
@@ -112,7 +112,7 @@ export class Input {
     this.pad.connected = true;
     if (pad.id && pad.id !== this.pad.name) {
       this.pad.name = pad.id;
-      window.dispatchEvent(new CustomEvent('pitchlegends-gamepad', { detail: this.pad }));
+      window.dispatchEvent(new CustomEvent('touchlinevale-gamepad', { detail: this.pad }));
     }
 
     const stick = (x, y) => {

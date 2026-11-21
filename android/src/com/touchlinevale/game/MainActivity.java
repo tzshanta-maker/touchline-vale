@@ -1,4 +1,4 @@
-package com.pitchlegends.game;
+package com.touchlinevale.game;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
- * Pitch Legends - universal Android shell.
+ * Touchline Vale - universal Android shell.
  *
  * The whole game is the Vite build copied into assets/www, so this activity only
  * hosts a full-screen WebView and forwards input. It is deliberately free of
@@ -142,7 +142,7 @@ public class MainActivity extends android.app.Activity {
 
     private void showUnsupported() {
         final TextView tv = new TextView(this);
-        tv.setText("Pitch Legends needs WebGL 2.\n\n"
+        tv.setText("Touchline Vale needs WebGL 2.\n\n"
             + "Please update \u201CAndroid System WebView\u201D and \u201CChrome\u201D in the Play Store, "
             + "or use a device running Android 5.0 or newer.");
         tv.setTextColor(0xFFE6EDF7);

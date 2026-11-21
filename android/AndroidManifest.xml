@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Pitch Legends — universal Android manifest.
+  Touchline Vale — universal Android manifest.
 
   One APK for every device type and Android version we can honestly support:
 
@@ -15,9 +15,9 @@
   * no permissions at all — the game is 100% local, nothing leaves the device.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pitchlegends.game"
-    android:versionCode="14"
-    android:versionName="1.0.13">
+    package="com.touchlinevale.game"
+    android:versionCode="15"
+    android:versionName="1.0.14">
 
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
 
@@ -66,7 +66,7 @@
       recreating the activity and reloading the game.
     -->
     <activity
-        android:name="com.pitchlegends.game.MainActivity"
+        android:name="com.touchlinevale.game.MainActivity"
         android:exported="true"
         android:label="@string/app_name"
         android:hardwareAccelerated="true"

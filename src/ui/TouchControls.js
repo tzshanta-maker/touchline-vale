@@ -41,7 +41,7 @@ const BUTTONS = [
   { id: 'sprint', key: 'sprint' },
 ];
 
-const HINT_KEY = 'pitch-legends-touch-hint-v1';
+const HINT_KEY = 'touchline-vale-touch-hint-v1';
 
 export class TouchControls {
   /** True when this device can actually press on-screen buttons. */

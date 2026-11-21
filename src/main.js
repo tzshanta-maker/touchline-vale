@@ -6,7 +6,7 @@ import { GamepadNav } from './ui/GamepadNav.js';
 import { TouchControls } from './ui/TouchControls.js';
 import { SETTINGS_DEFAULTS, TEAMS } from './config.js';
 
-const STORAGE_KEY = 'pitch-legends-settings-v1';
+const STORAGE_KEY = 'touchline-vale-settings-v1';
 
 function loadSettings() {
   try {
@@ -119,7 +119,7 @@ input.onFrame = () => {
   padNav.update(1 / 60);
 };
 
-window.addEventListener('pitchlegends-gamepad', (e) => {
+window.addEventListener('touchlinevale-gamepad', (e) => {
   const pad = e.detail || {};
   if (pad.connected) {
     const label = (pad.name || 'Controller').replace(/\s*\(.*\)$/, '').trim();

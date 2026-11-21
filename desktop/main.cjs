@@ -1,5 +1,5 @@
 /**
- * Pitch Legends — desktop shell.
+ * Touchline Vale — desktop shell.
  *
  * Loads the Vite production build (`dist/`) straight off disk, so the desktop
  * build needs no server and no network connection. Run with:
@@ -20,7 +20,7 @@ function createWindow() {
     minWidth: 900,
     minHeight: 560,
     backgroundColor: '#070c16',
-    title: 'Pitch Legends',
+    title: 'Touchline Vale',
     icon: path.join(__dirname, 'icon.png'),
     show: false,
     autoHideMenuBar: true,
@@ -47,7 +47,7 @@ function createWindow() {
       'data:text/html;charset=utf-8,' +
         encodeURIComponent(
           `<body style="font:16px/1.5 system-ui;background:#070c16;color:#eef4ff;padding:48px">
-             <h1 style="color:#c9ff4a">Pitch Legends</h1>
+             <h1 style="color:#c9ff4a">Touchline Vale</h1>
              <p>The game files were not found. Build them first:</p>
              <pre style="background:#101a2c;padding:16px;border-radius:8px">npm install
 npm run build

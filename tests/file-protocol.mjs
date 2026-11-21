@@ -69,7 +69,7 @@ for (const viewport of [{ width: 390, height: 844 }, { width: 1280, height: 800 
   });
   check(`${tag}: three.js sized the canvas`, booted.canvas);
   check(`${tag}: title screen visible`, booted.titleShown);
-  check(`${tag}: title from game`, /Pitch Legends/.test(booted.title), booted.title);
+  check(`${tag}: title from game`, /Touchline Vale/.test(booted.title), booted.title);
 
     // click through to the Quick Match setup screen, as a player would (this needs
   // the JS to be running AND the click handler to be wired up)

@@ -1,11 +1,11 @@
 @echo off
 setlocal
-title Pitch Legends - install on BlueStacks
+title Touchline Vale - install on BlueStacks
 cd /d "%~dp0"
 
-set "APK=%CD%\Pitch-Legends-1.0.13-universal-debug.apk"
+set "APK=%CD%\Touchline-Vale-1.0.13-universal-debug.apk"
 if not exist "%APK%" (
-  echo ERROR: Pitch-Legends-1.0.13-universal-debug.apk not found in this folder:
+  echo ERROR: Touchline-Vale-1.0.13-universal-debug.apk not found in this folder:
   echo   %CD%
   pause
   exit /b 1
@@ -85,14 +85,14 @@ set "RC=%ERRORLEVEL%"
 echo.
 if "%RC%"=="0" (
   echo SUCCESS - installed.
-  %ADB% -s %DEV% shell monkey -p com.pitchlegends.game -c android.intent.category.LAUNCHER 1 >nul 2>nul
-  echo Launching Pitch Legends.
+  %ADB% -s %DEV% shell monkey -p com.touchlinevale.game -c android.intent.category.LAUNCHER 1 >nul 2>nul
+  echo Launching Touchline Vale.
   echo If it opens to a black screen, that is BlueStacks' OpenGL, not the APK:
   echo   BlueStacks Settings -^> Graphics -^> Graphics renderer -^> OpenGL,
   echo   and set the instance to 4 cores / 4 GB RAM.
 ) else (
   echo Install failed, adb exit code %RC%. The INSTALL_FAILED_* text above is the cause:
-  echo   INSTALL_FAILED_UPDATE_INCOMPATIBLE  -^>  %ADB% -s %DEV% uninstall com.pitchlegends.game   then rerun
+  echo   INSTALL_FAILED_UPDATE_INCOMPATIBLE  -^>  %ADB% -s %DEV% uninstall com.touchlinevale.game   then rerun
   echo   INSTALL_FAILED_OLDER_SDK            -^>  the instance is older than Android 5.0
   echo   INSTALL_FAILED_INSUFFICIENT_STORAGE -^>  free space on the instance
   echo   INSTALL_PARSE_FAILED_*              -^>  damaged copy, check the SHA256 above

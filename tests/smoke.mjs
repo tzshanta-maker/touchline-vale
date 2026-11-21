@@ -1,5 +1,5 @@
 /**
- * Headless smoke test for Pitch Legends.
+ * Headless smoke test for Touchline Vale.
  * Usage: npm run dev (in another terminal) && npm test
  *        BASE_URL=http://127.0.0.1:5173 npm test
  */
@@ -103,7 +103,7 @@ check('seven formations are offered in the setup menu', formationOptions.length 
 await page.click('#setup-formation-grid button[data-value="4-2-3-1"]');
 const formationPicked = await page.evaluate(() => ({
   meta: document.getElementById('meta-formation').textContent,
-  saved: JSON.parse(localStorage.getItem('pitch-legends-settings-v1') || '{}').formation,
+  saved: JSON.parse(localStorage.getItem('touchline-vale-settings-v1') || '{}').formation,
   active: document.querySelector('#setup-formation-grid .formation-btn.active')?.dataset.value,
   summary: document.getElementById('setup-summary')?.textContent || '',
 }));
@@ -1935,7 +1935,7 @@ const cameras = await page.evaluate(() => {
   const { game, ui } = window.__PITCH_LEGENDS__;
   const out = { options: [], modes: {} };
   out.options = [...document.querySelectorAll('#screen-settings [data-setting="camera"] button')].map((b) => b.dataset.value);
-  out.default = JSON.parse(localStorage.getItem('pitch-legends-settings-v1') || '{}').camera || game.cameraMode;
+  out.default = JSON.parse(localStorage.getItem('touchline-vale-settings-v1') || '{}').camera || game.cameraMode;
   for (const mode of ['action', 'broadcast', 'side', 'close']) {
     game.setCameraMode(mode);
     game.snapCamera();

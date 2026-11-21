@@ -1,13 +1,18 @@
-# Pitch Legends
+# Touchline Vale
 
 An original, fully playable **3D eleven-a-side football game** that runs in the browser.
 Built with **JavaScript + Vite + Three.js**, with every model, texture, sound and menu
 generated procedurally at runtime — no external or copyrighted assets are used anywhere.
 
-> Pitch Legends is an independent game. It is not affiliated with, endorsed by, or based on
+> **Name check:** the game was briefly called *Pitch Legends*, which collided with an unrelated
+> existing card-battle game of the same name. It is now **Touchline Vale**, and the Android
+> package id changed with it (`com.touchlinevale.game`), so install it fresh rather than over
+> the old build.
+>
+> Touchline Vale is an independent game. It is not affiliated with, endorsed by, or based on
 > any real league, club, footballer, or football-game franchise.
 
-[![Download APK](https://img.shields.io/badge/download-APK%201.0.13-3ddc84?logo=android&logoColor=white)](../../releases/latest)
+[![Download APK](https://img.shields.io/badge/download-APK%201.0.14-3ddc84?logo=android&logoColor=white)](../../releases/latest)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 ---
@@ -15,7 +20,7 @@ generated procedurally at runtime — no external or copyrighted assets are used
 ## Quick start
 
 ```bash
-cd pitch-legends
+cd touchline-vale
 npm install          # installs three + vite (dev)
 npm run dev          # start the dev server
 ```
@@ -41,7 +46,7 @@ The game also ships as a self-contained desktop app — no browser, no server:
 
 | File | What it is |
 | --- | --- |
-| `release/Pitch Legends-win32-x64.7z` | Windows x64 build (~98 MB). Extract, then run `Pitch Legends.exe`. Windows 11 opens `.7z` natively; on Windows 10 use 7-Zip or WinRAR. |
+| `release/Touchline Vale-win32-x64.7z` | Windows x64 build (~98 MB). Extract, then run `Touchline Vale.exe`. Windows 11 opens `.7z` natively; on Windows 10 use 7-Zip or WinRAR. |
 
 Build your own for any platform Electron supports:
 
@@ -263,7 +268,7 @@ desktop/
   main.cjs                # Electron main process (window, menu, file:// loading)
   icon.png / icon.ico     # generated app icon
 android/
-  AndroidManifest.xml     # com.pitchlegends.game, minSdk 21, targetSdk 34
+  AndroidManifest.xml     # com.touchlinevale.game, minSdk 21, targetSdk 34
   src/.../MainActivity.java  # full-screen WebView over assets/www
   build-apk.sh            # offline APK build (aapt2 → javac → D8 → zip → zipalign → apksigner)
   pack_apk.py             # writes the zip with resources.arsc STORED and the manifest first
@@ -398,11 +403,11 @@ Settings: **Formation**, **Camera** — Broadcast (elevated follow) or Close
 
 `release/` holds the current artifact:
 
-* **`Pitch-Legends-1.0.13-universal-debug.apk`** — one universal APK:
+* **`Touchline-Vale-1.0.14-universal-debug.apk`** — one universal APK:
 
   | | |
   | --- | --- |
-  | Package | `com.pitchlegends.game` v1.0.13 |
+  | Package | `com.touchlinevale.game` v1.0.14 |
   | Android versions | **5.0 → 15+** (`minSdk 21`, `targetSdk 34`) |
   | CPU architectures | **all** — the shell is pure Java + WebView, so there is no `lib/` and no ABI split (armeabi-v7a, arm64-v8a, x86, x86_64 all install the same file) |
   | Screen types | phones, tablets, foldables, Chromebooks, Android TV (`LAUNCHER` + `LEANBACK_LAUNCHER` + `GAME`), windowed/multi-window, every density |
@@ -421,7 +426,7 @@ Settings: **Formation**, **Camera** — Broadcast (elevated follow) or Close
   ```
 
   `--release` reads `KEYSTORE`, `KS_PASS`, `KS_ALIAS` and `KEY_PASS` from the environment and
-  writes `Pitch-Legends-1.0.13-universal.apk`.
+  writes `Touchline-Vale-1.0.14-universal.apk`.
 
   **Packaging is checked, not assumed.** Android 11+ refuses to install an APK whose
   `resources.arsc` is compressed or whose `AndroidManifest.xml` is not the first zip entry, and
@@ -432,7 +437,7 @@ Settings: **Formation**, **Camera** — Broadcast (elevated follow) or Close
 
 * The portable **Windows x64 build is not stored in the workspace** (it is ~110 MB of Electron
   runtime). Rebuild it any time with `npm run desktop:win`, which writes
-  `release/Pitch Legends-win32-x64/` — zip/unpack and run `Pitch Legends.exe`.
+  `release/Touchline Vale-win32-x64/` — zip/unpack and run `Touchline Vale.exe`.
 
 The web bundle itself is universal too: `npm run build` produces `dist/` with relative paths,
 ES2017 output (verified to parse as ES2017 — safe for old Android/WebView and Chromium), and it
