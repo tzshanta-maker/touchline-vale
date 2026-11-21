@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Pitch Legends — universal Android manifest.
+
+  One APK for every device type and Android version we can honestly support:
+
+  * no native code at all (pure Java shell + WebView), so there are no ABI
+    splits: it installs on armeabi-v7a, arm64-v8a, x86 and x86_64 alike;
+  * minSdk 21 (Android 5.0) — the floor for WebGL2 in an updatable WebView;
+  * every hardware feature is optional, so phones, tablets, foldables,
+    Chromebooks, Android TV boxes and desktops with a keyboard all qualify;
+  * both LAUNCHER (phones/tablets/TV boxes with a launcher) and
+    LEANBACK_LAUNCHER (Android TV home screen) categories;
+  * all orientations and screen densities, resizable / multi-window, RTL safe;
+  * no permissions at all — the game is 100% local, nothing leaves the device.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pitchlegends.game"
+    android:versionCode="14"
+    android:versionName="1.0.13">
+
+  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
+
+  <!-- Rendering: WebGL2 comes from the system WebView, so GLES is not required
+       to be advertised by the device (emulators, some TV boxes). -->
+  <uses-feature android:glEsVersion="0x00020000" android:required="false" />
+
+  <!-- Everything below is optional: this must install on as many devices as
+       possible. A gamepad, a touchscreen or a TV remote all work. -->
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="false" />
+  <uses-feature android:name="android.hardware.faketouch" android:required="false" />
+  <uses-feature android:name="android.hardware.gamepad" android:required="false" />
+  <uses-feature android:name="android.hardware.leanback" android:required="false" />
+  <uses-feature android:name="android.software.leanback" android:required="false" />
+
+  <supports-screens
+      android:smallScreens="true"
+      android:normalScreens="true"
+      android:largeScreens="true"
+      android:xlargeScreens="true"
+      android:anyDensity="true"
+      android:resizeable="true" />
+
+  <application
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:roundIcon="@mipmap/ic_launcher_round"
+      android:banner="@drawable/tv_banner"
+      android:isGame="true"
+      android:hardwareAccelerated="true"
+      android:largeHeap="true"
+      android:resizeableActivity="true"
+      android:supportsRtl="true"
+      android:allowBackup="true"
+      android:usesCleartextTraffic="false"
+      android:theme="@style/GameTheme">
+
+    <!--
+      Landscape lock: sensorLandscape follows the accelerometer but only ever
+      picks one of the two landscape orientations, so the pitch is always wide
+      (the HUD, both control layouts and the setup menu are designed for it)
+      while the player can still flip the device left- or right-handed.
+      configChanges keeps the WebView alive across that flip instead of
+      recreating the activity and reloading the game.
+    -->
+    <activity
+        android:name="com.pitchlegends.game.MainActivity"
+        android:exported="true"
+        android:label="@string/app_name"
+        android:hardwareAccelerated="true"
+        android:launchMode="singleTask"
+        android:resizeableActivity="true"
+        android:screenOrientation="sensorLandscape"
+        android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|keyboard|navigation|uiMode|density|fontScale|locale|layoutDirection|touchscreen|mcc|mnc">
+
+      <!-- phones, tablets, Chromebooks, TV boxes with a launcher -->
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+
+      <!-- Android TV home screen (the banner above is required there) -->
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+      </intent-filter>
+
+      <!-- game controllers can start the game straight from the launcher -->
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.GAME" />
+      </intent-filter>
+    </activity>
+  </application>
+</manifest>

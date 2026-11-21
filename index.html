@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a1220" />
+    <title>Pitch Legends — 3D Football</title>
+    <meta name="description" content="Pitch Legends: an original 3D eleven-a-side football game built with Three.js." />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <!-- ======================= IN-MATCH HUD ======================= -->
+      <div id="hud" class="hud hidden">
+        <div class="scoreboard">
+          <div class="sb-team sb-home">
+            <span class="sb-swatch" id="home-swatch"></span>
+            <span class="sb-name" id="home-name">HARBOR CITY</span>
+          </div>
+          <div class="sb-score">
+            <span id="score-home">0</span>
+            <span class="sb-dash">–</span>
+            <span id="score-away">0</span>
+          </div>
+          <div class="sb-team sb-away">
+            <span class="sb-name" id="away-name">RIVERSIDE</span>
+            <span class="sb-swatch" id="away-swatch"></span>
+          </div>
+          <div class="sb-clock">
+            <span id="match-clock">00:00</span>
+            <span class="sb-half" id="half-label">1ST HALF</span>
+          </div>
+        </div>
+
+        <div class="top-right">
+          <div class="possession" title="Possession">
+            <div class="poss-bar">
+              <div class="poss-home" id="poss-home"></div>
+              <div class="poss-away" id="poss-away"></div>
+            </div>
+            <div class="poss-labels"><span id="poss-home-label">50%</span><span>POSSESSION</span><span id="poss-away-label">50%</span></div>
+          </div>
+          <button id="btn-pause" class="icon-btn" aria-label="Pause">❙❙</button>
+        </div>
+
+        <div class="player-card" id="player-card">
+          <div class="pc-num" id="pc-number">9</div>
+          <div class="pc-body">
+            <div class="pc-top"><span id="pc-name">HALVORSEN</span><span class="pc-role" id="pc-role">ST</span></div>
+            <div class="stamina"><div class="stamina-fill" id="stamina-fill"></div></div>
+            <div class="pc-label">STAMINA</div>
+            <div class="pc-stats" id="pc-stats">
+              <span class="pc-stat"><b id="pc-pac">70</b>PAC</span>
+              <span class="pc-stat"><b id="pc-sho">70</b>SHO</span>
+              <span class="pc-stat"><b id="pc-pas">70</b>PAS</span>
+              <span class="pc-ovr" id="pc-ovr">70 <i>OVR</i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="power-wrap" id="power-wrap">
+          <div class="power-label">SHOT POWER</div>
+          <div class="power-bar"><div class="power-fill" id="power-fill"></div></div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+        <div class="receive-pip" id="receive-pip" aria-hidden="true"></div>
+
+        <div class="goal-banner hidden" id="goal-banner">
+          <div class="goal-text">GOAL<span>!</span></div>
+          <div class="goal-sub" id="goal-sub">HARBOR CITY — HALVORSEN</div>
+        </div>
+
+        <div class="hint-bar" id="hint-bar">
+          <span><b>WASD</b> move</span><span><b>SHIFT</b> sprint</span><span><b>SHIFT×2</b> roulette</span>
+          <span><b>Z</b> pass</span><span><b>X</b> through</span><span><b>C</b> shoot</span><span><b>E</b> tackle</span>
+          <span><b>TAB</b> switch</span><span><b>ESC</b> pause</span>
+        </div>
+      </div>
+
+      <!-- ======================= TITLE SCREEN ======================= -->
+      <section id="screen-title" class="screen">
+        <div class="menu-bg">
+          <div class="bg-glow"></div>
+          <svg class="bg-pitch" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#c9ff4a" stop-opacity="0.55" />
+                <stop offset="100%" stop-color="#3ee0c8" stop-opacity="0.08" />
+              </linearGradient>
+            </defs>
+            <g fill="none" stroke="url(#lineGrad)" stroke-width="2">
+              <rect x="80" y="60" width="1040" height="580" rx="4" />
+              <line x1="600" y1="60" x2="600" y2="640" />
+              <circle cx="600" cy="350" r="92" />
+              <circle cx="600" cy="350" r="4" fill="url(#lineGrad)" />
+              <rect x="80" y="200" width="150" height="300" />
+              <rect x="80" y="275" width="55" height="150" />
+              <rect x="970" y="200" width="150" height="300" />
+              <rect x="1065" y="275" width="55" height="150" />
+            </g>
+          </svg>
+        </div>
+        <div class="menu-inner">
+          <div class="brand">
+            <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="29" fill="none" stroke="#c9ff4a" stroke-width="2.5" />
+              <path d="M32 10l8 6-3 9h-10l-3-9z" fill="#c9ff4a" opacity="0.9" />
+              <path d="M18 22l8 5-2 9-9 1-2-9z" fill="#c9ff4a" opacity="0.55" />
+              <path d="M46 22l-8 5 2 9 9 1 2-9z" fill="#c9ff4a" opacity="0.55" />
+              <path d="M24 44l8-4 8 4-3 8h-10z" fill="#3ee0c8" opacity="0.85" />
+            </svg>
+            <h1 class="title">PITCH<span>LEGENDS</span></h1>
+            <p class="tagline">Eleven a side. One ball. Ninety minutes of noise.</p>
+          </div>
+          <nav class="menu">
+            <button class="btn btn-primary" id="btn-quick">Quick Match</button>
+            <button class="btn" id="btn-squad">Squad</button>
+            <button class="btn" id="btn-howto">How to Play</button>
+            <button class="btn" id="btn-settings">Settings</button>
+          </nav>
+          <div class="menu-meta">
+            <div class="meta-chip"><span class="meta-k">DIFFICULTY</span><span class="meta-v" id="meta-diff">Professional</span></div>
+            <div class="meta-chip"><span class="meta-k">HALF LENGTH</span><span class="meta-v" id="meta-half">3 min</span></div>
+            <div class="meta-chip"><span class="meta-k">FORMATION</span><span class="meta-v" id="meta-formation">4-3-3</span></div>
+            <div class="meta-chip"><span class="meta-k">FORMAT</span><span class="meta-v">11 v 11</span></div>
+          </div>
+          <p class="legal">Original game · procedurally generated visuals · not affiliated with any football league or video game publisher</p>
+        </div>
+      </section>
+
+      <!-- ======================= QUICK MATCH SETUP ======================= -->
+      <section id="screen-match" class="screen hidden">
+        <div class="panel wide">
+          <header class="panel-head">
+            <h2>Quick Match</h2>
+            <button class="btn btn-ghost" data-back data-backto="title">Back</button>
+          </header>
+
+          <div class="match-setup">
+            <div class="setup-col">
+              <h3 class="setup-title">Match</h3>
+
+              <div class="setting column">
+                <div class="setting-label">
+                  <span>Difficulty</span>
+                  <small>How hard the AI presses, passes, shoots and keeps goal</small>
+                </div>
+                <div class="segmented" data-setting="difficulty">
+                  <button data-value="easy">Amateur</button>
+                  <button data-value="normal">Professional</button>
+                  <button data-value="hard">Legend</button>
+                </div>
+              </div>
+
+              <div class="setting column">
+                <div class="setting-label">
+                  <span>Match length</span>
+                  <small>Playing time per half (the clock counts match minutes)</small>
+                </div>
+                <div class="segmented" data-setting="halfMinutes">
+                  <button data-value="2">2 min</button>
+                  <button data-value="3">3 min</button>
+                  <button data-value="5">5 min</button>
+                </div>
+              </div>
+
+              <div class="setting column">
+                <div class="setting-label">
+                  <span>Formation</span>
+                  <small id="setup-formation-desc">Balanced width · two wide forwards, one holding midfielder</small>
+                </div>
+                <div class="formation-grid" data-setting="formation" id="setup-formation-grid"></div>
+              </div>
+            </div>
+
+            <div class="setup-col">
+              <h3 class="setup-title">Controls</h3>
+
+              <div class="setting column">
+                <div class="setting-label">
+                  <span>Control type</span>
+                  <small>Keyboard &amp; mouse with gamepad support, or on-screen mobile controls</small>
+                </div>
+                <div class="segmented" data-setting="controls">
+                  <button data-value="desktop">Computer / Controller</button>
+                  <button data-value="touch">Mobile</button>
+                </div>
+              </div>
+
+              <div class="setting column" id="setup-mobile-layout">
+                <div class="setting-label">
+                  <span>Mobile style</span>
+                  <small id="setup-touch-desc">FC Mobile style — button cluster with a power ring</small>
+                </div>
+                <div class="segmented" data-setting="touchLayout">
+                  <button data-value="fc">FC Mobile-style</button>
+                  <button data-value="dls">DLS-like</button>
+                </div>
+              </div>
+
+              <div class="setup-preview" id="setup-preview" aria-hidden="true">
+                <div class="sp-keys"><i></i><i></i><i></i><i></i></div>
+                <div class="sp-stick"></div>
+                <div class="sp-fc"><i></i><i></i><i></i><i></i></div>
+                <div class="sp-dls"><i></i><i></i><i></i></div>
+                <span class="sp-label" id="sp-label">computer + controller</span>
+              </div>
+
+              <button class="btn btn-primary btn-kickoff" id="btn-kickoff">Kick Off</button>
+              <p class="note" id="setup-summary">Professional · 3 min halves · 4-3-3</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= HOW TO PLAY ======================= -->
+      <section id="screen-howto" class="screen hidden">
+        <div class="panel wide">
+          <header class="panel-head">
+            <h2>How to Play</h2>
+            <button class="btn btn-ghost" data-back>Back</button>
+          </header>
+          <div class="howto-grid">
+            <div class="howto-col">
+              <h3>Controls</h3>
+              <dl class="keys">
+                <div><dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd>Move your player</dd></div>
+                <div><dt><kbd>Shift</kbd></dt><dd>Sprint — burns stamina · tap twice for a roulette</dd></div>
+                <div><dt><kbd>Z</kbd></dt><dd>Pass to the teammate you are aiming at</dd></div>
+                <div><dt><kbd>X</kbd></dt><dd>Through / lob pass into space</dd></div>
+                <div><dt><kbd>C</kbd></dt><dd>Hold to charge power, release to shoot</dd></div>
+                <div><dt><kbd>E</kbd></dt><dd>Tackle / win the ball</dd></div>
+                <div><dt><kbd>Tab</kbd></dt><dd>Switch to the next teammate</dd></div>
+                <div><dt><kbd>Esc</kbd></dt><dd>Pause &amp; resume</dd></div>
+              </dl>
+              <h3 style="margin-top:18px">Controller</h3>
+              <dl class="keys">
+                <div><dt><kbd>L-Stick</kbd><kbd>D-Pad</kbd></dt><dd>Move</dd></div>
+                <div><dt><kbd>R-Stick</kbd></dt><dd>Aim passes and shots</dd></div>
+                <div><dt><kbd>A</kbd></dt><dd>Pass</dd></div>
+                <div><dt><kbd>Y</kbd></dt><dd>Through ball</dd></div>
+                <div><dt><kbd>B</kbd></dt><dd>Hold to shoot</dd></div>
+                <div><dt><kbd>X</kbd></dt><dd>Tackle</dd></div>
+                <div><dt><kbd>RB</kbd><kbd>RT</kbd></dt><dd>Sprint · double-tap for a roulette</dd></div>
+                <div><dt><kbd>LB</kbd></dt><dd>Switch player</dd></div>
+                <div><dt><kbd>Start</kbd></dt><dd>Pause</dd></div>
+              </dl>
+              <h3 style="margin-top:18px">Mobile</h3>
+              <dl class="keys">
+                <div><dt><kbd>Stick</kbd></dt><dd>Move · flick to aim passes and throws</dd></div>
+                <div><dt><kbd>Shoot</kbd></dt><dd>Tap or hold to charge · out of possession it slides in</dd></div>
+                <div><dt><kbd>Pass</kbd></dt><dd>Tap short · hold long · swipe up to cross · defends as switch/contain</dd></div>
+                <div><dt><kbd>Through</kbd></dt><dd>Through ball · hold or swipe up to loft · defends as press</dd></div>
+                <div><dt><kbd>Sprint</kbd></dt><dd>Run · while defending it chases and auto-tackles</dd></div>
+                <div><dt><kbd>Throw-in</kbd></dt><dd>PASS becomes THROW, THRU becomes RECEIVER</dd></div>
+              </dl>
+              <p class="note">Pick <b>Mobile</b> in Quick Match and choose the FC-style cluster or the DLS-like A/B/C pad; both are stored with the rest of your settings. Any USB/Bluetooth controller using the standard mapping works — just press a button to connect; a toast confirms it. The pad also drives the menus: D-pad or left stick to move the focus ring, <b>A</b> to select, <b>B</b> to go back, <b>Start</b> to kick off or pause. On touch devices, use the on-screen stick and the action buttons.</p>
+            </div>
+            <div class="howto-col">
+              <h3>Match craft</h3>
+              <ul class="tips">
+                <li><b>Passing:</b> aim assist picks the teammate in the direction you are running (or the right stick). Point at a teammate and press Z; with nobody there the ball goes into the space ahead.</li>
+                <li><b>First touch:</b> players cushion the ball instead of letting it bounce off — better passers take a cleaner touch.</li>
+                <li><b>Skill move:</b> double-tap Shift (or RB/RT) with the ball to spin through a challenge.</li>
+                <li><b>Shooting:</b> the longer you hold C, the harder the shot — but power costs accuracy. Short taps are for close-range finishes.</li>
+                <li><b>Sprint smart:</b> stamina drains fast and recovers slowly. Sprint to close down space, not to chase every ball.</li>
+                <li><b>Defending:</b> press with the nearest player, then press E when the ball-carrier is within reach. Tackles work from any angle — the challenge goes in the direction you are running. A failed tackle leaves you flat-footed.</li>
+                <li><b>Goalkeepers</b> dive on shots and rush out for loose balls inside the area. Keepers hold the ball for a moment before distributing.</li>
+                <li><b>Throw-ins:</b> when the ball crosses a touchline, the nearest player of the other side takes it. Aim with the stick, cycle the highlighted receiver (X / THRU / RECEIVER) and throw (Z / PASS / THROW). There is no offside from a throw-in.</li>
+                <li><b>Corners and goal kicks:</b> played automatically — you take control once the ball is live.</li>
+                <li><b>Auto tackle:</b> hold Sprint while defending and your player chases the carrier; in range he challenges automatically (with a short cooldown). Manual tackles still work.</li>
+              </ul>
+              <div class="legend-note">Matches are two halves. Your team attacks toward the far end of the pitch; the camera follows behind the play.</div>
+              <div class="legend-note squad-note">
+                <b>Squad &amp; formations:</b> every footballer has six attributes — pace, shooting, passing,
+                dribbling, defending and physical — and they feed straight into the game: quick players win
+                foot races, sharp shooters hit harder and straighter, strong passers find their man, good
+                defenders tackle more often. Pick from seven formations on the title screen (or in the pause
+                menu), open <b>Squad</b> to see the whole roster, and tired players are replaced automatically
+                at the next stoppage — up to three substitutes per match.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= SQUAD ======================= -->
+      <section id="screen-squad" class="screen hidden">
+        <div class="panel wide">
+          <header class="panel-head">
+            <h2 id="squad-title">Harbor City</h2>
+            <button class="btn btn-ghost" data-back data-backto="title">Back</button>
+          </header>
+          <div class="squad-meta">
+            <span id="squad-formation">4-3-3</span>
+            <span class="squad-sep">·</span>
+            <span id="squad-summary">11 starters + 5 substitutes</span>
+            <span class="squad-legend">PAC pace · SHO shooting · PAS passing · DRI dribbling · DEF defending · PHY physical</span>
+          </div>
+          <div class="squad-scroll">
+            <div class="squad-section">
+              <h3>Starting XI</h3>
+              <div id="squad-starters" class="squad-list"></div>
+            </div>
+            <div class="squad-section">
+              <h3>Substitutes</h3>
+              <div id="squad-bench" class="squad-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================= SETTINGS ======================= -->
+      <section id="screen-settings" class="screen hidden">
+        <div class="panel">
+          <header class="panel-head">
+            <h2>Settings</h2>
+            <button class="btn btn-ghost" data-back data-backto="title">Back</button>
+          </header>
+          <div class="settings-list">
+            <div class="setting">
+              <div class="setting-label"><span>Camera</span><small>Action is low and close behind the play, Broadcast is the elevated TV cam, Side looks across the pitch</small></div>
+              <div class="segmented" data-setting="camera">
+                <button data-value="action">Action</button>
+                <button data-value="broadcast">Broadcast</button>
+                <button data-value="side">Side</button>
+                <button data-value="close">Close</button>
+              </div>
+            </div>
+            <div class="setting">
+              <div class="setting-label"><span>Auto switch</span><small>Take control of the teammate who wins the ball</small></div>
+              <div class="segmented" data-setting="autoSwitch">
+                <button data-value="on">On</button>
+                <button data-value="off">Off</button>
+              </div>
+            </div>
+            <div class="setting">
+              <div class="setting-label"><span>Sound</span><small>Procedural crowd, kicks and whistles</small></div>
+              <div class="segmented" data-setting="sound">
+                <button data-value="on">On</button>
+                <button data-value="off">Off</button>
+              </div>
+            </div>
+          </div>
+          <p class="note">
+            Difficulty, match length, formation and controls are set in <b>Quick Match</b>, so they are not
+            repeated here. Everything on this screen is saved automatically.
+          </p>
+        </div>
+      </section>
+
+      <!-- ======================= PAUSE ======================= -->
+      <div id="pause-overlay" class="overlay hidden">
+        <div class="panel">
+          <header class="panel-head"><h2>Paused</h2><span class="panel-score" id="pause-score">0 – 0</span></header>
+          <div class="pause-actions">
+            <button class="btn btn-primary" id="btn-resume">Resume</button>
+            <button class="btn" id="btn-restart">Restart Match</button>
+            <button class="btn" id="btn-mainmenu">Main Menu</button>
+          </div>
+          <div class="pause-settings">
+            <div class="setting compact">
+              <div class="setting-label"><span>Sound</span></div>
+              <div class="segmented small" data-setting="sound">
+                <button data-value="on">On</button>
+                <button data-value="off">Off</button>
+              </div>
+            </div>
+            <div class="setting compact">
+              <div class="setting-label"><span>Camera</span></div>
+              <div class="segmented small" data-setting="camera">
+                <button data-value="action">Action</button>
+                <button data-value="broadcast">Broadcast</button>
+                <button data-value="side">Side</button>
+                <button data-value="close">Close</button>
+              </div>
+            </div>
+            <div class="setting compact wrap">
+              <div class="setting-label"><span>Formation</span></div>
+              <div class="segmented small wrap" data-setting="formation" id="pause-formation">
+                <button data-value="4-3-3">4-3-3</button>
+                <button data-value="4-4-2">4-4-2</button>
+                <button data-value="4-2-3-1">4-2-3-1</button>
+                <button data-value="3-5-2">3-5-2</button>
+                <button data-value="5-3-2">5-3-2</button>
+                <button data-value="4-1-2-1-2">4-1-2-1-2</button>
+                <button data-value="4-5-1">4-5-1</button>
+              </div>
+            </div>
+          </div>
+          <div class="pause-keys">
+            <span><b>WASD</b> move</span><span><b>SHIFT</b> sprint</span><span><b>SHIFT×2</b> roulette</span>
+            <span><b>Z</b> pass</span><span><b>X</b> through</span><span><b>C</b> shoot</span>
+            <span><b>E</b> tackle</span><span><b>TAB</b> switch</span>
+            <span class="pause-pad">Gamepad: <b>A</b> pass · <b>Y</b> through · <b>B</b> shoot · <b>X</b> tackle · <b>RB</b> sprint</span>
+          </div>
+          <p class="note">Difficulty and half length apply from the next match. Formation changes take effect at the next break in play.</p>
+        </div>
+      </div>
+
+      <!-- ======================= HALF TIME ======================= -->
+      <div id="halftime-overlay" class="overlay hidden">
+        <div class="banner-card">
+          <h2>Half Time</h2>
+          <div class="big-score" id="halftime-score">0 – 0</div>
+          <p class="note">Second half kicks off in a moment…</p>
+        </div>
+      </div>
+
+      <!-- ======================= FULL TIME ======================= -->
+      <div id="fulltime-overlay" class="overlay hidden">
+        <div class="panel">
+          <header class="panel-head"><h2>Full Time</h2></header>
+          <div class="ft-result" id="ft-result">0 – 0</div>
+          <div class="ft-verdict" id="ft-verdict">Draw</div>
+          <div class="ft-stats">
+            <div class="ft-row"><span id="ft-shots-h">0</span><span>Shots</span><span id="ft-shots-a">0</span></div>
+            <div class="ft-row"><span id="ft-saves-h">0</span><span>Saves</span><span id="ft-saves-a">0</span></div>
+            <div class="ft-row"><span id="ft-poss-h">50%</span><span>Possession</span><span id="ft-poss-a">50%</span></div>
+          </div>
+          <div class="pause-actions">
+            <button class="btn btn-primary" id="btn-rematch">Rematch</button>
+            <button class="btn" id="btn-ft-menu">Main Menu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================= LOADING ======================= -->
+      <div id="loading" class="overlay visible">
+        <div class="loader">
+          <div class="loader-ball"></div>
+          <p>Building the stadium…</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
