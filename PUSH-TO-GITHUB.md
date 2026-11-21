@@ -52,7 +52,7 @@ git push
 | `desktop/` | Electron wrapper |
 | `tests/` | the 124-check smoke test and the packaged-file test |
 | `docs/` | screenshots used by the README |
-| `release/Touchline-Vale-1.0.14-universal-debug.apk` | a ready-to-install build |
+| `release/Touchline-Vale-1.0-universal-debug.apk` | a ready-to-install build |
 
 `node_modules/` and `dist/` are ignored (rebuild with `npm install && npm run build`).
 

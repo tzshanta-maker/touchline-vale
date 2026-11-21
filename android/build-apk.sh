@@ -94,7 +94,7 @@ mkdir -p build/gen build/classes build/dex
 "$AAPT2" compile --dir res -o build/res.zip
 "$AAPT2" link -I "$ANDROID_JAR" --manifest AndroidManifest.xml -o build/base.apk build/res.zip \
   --java build/gen --min-sdk-version 21 --target-sdk-version 34 \
-  --version-code 15 --version-name 1.0.14
+  --version-code 15 --version-name 1.0
 
 echo "==> compiling java + dexing (min-api 21)"
 javac -encoding UTF-8 -source 11 -target 11 -classpath "$ANDROID_JAR" -d build/classes \
@@ -116,7 +116,7 @@ if [ "$MODE" = "--release" ]; then
   "$BUILD_TOOLS/apksigner" sign --ks "$KEYSTORE" --ks-pass "pass:$KS_PASS" \
     --ks-key-alias "$KS_ALIAS" --key-pass "pass:$KEY_PASS" \
     --out build/signed.apk build/aligned.apk
-  NAME="Touchline-Vale-1.0.14-universal.apk"
+  NAME="Touchline-Vale-1.0-universal.apk"
 else
   KS="$HOME/.android/debug.keystore"
   if [ ! -f "$KS" ]; then
@@ -130,7 +130,7 @@ else
     --ks-key-alias androiddebugkey --key-pass pass:android \
     --min-sdk-version 21 \
     --out build/signed.apk build/aligned.apk
-  NAME="Touchline-Vale-1.0.14-universal-debug.apk"
+  NAME="Touchline-Vale-1.0-universal-debug.apk"
 fi
 
 "$BUILD_TOOLS/apksigner" verify build/signed.apk >/dev/null

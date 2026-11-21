@@ -12,7 +12,7 @@ generated procedurally at runtime — no external or copyrighted assets are used
 > Touchline Vale is an independent game. It is not affiliated with, endorsed by, or based on
 > any real league, club, footballer, or football-game franchise.
 
-[![Download APK](https://img.shields.io/badge/download-APK%201.0.14-3ddc84?logo=android&logoColor=white)](../../releases/latest)
+[![Download APK](https://img.shields.io/badge/download-APK%201.0-3ddc84?logo=android&logoColor=white)](../../releases/latest)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 ---
@@ -403,11 +403,11 @@ Settings: **Formation**, **Camera** — Broadcast (elevated follow) or Close
 
 `release/` holds the current artifact:
 
-* **`Touchline-Vale-1.0.14-universal-debug.apk`** — one universal APK:
+* **`Touchline-Vale-1.0-universal-debug.apk`** — one universal APK:
 
   | | |
   | --- | --- |
-  | Package | `com.touchlinevale.game` v1.0.14 |
+  | Package | `com.touchlinevale.game` v1.0 |
   | Android versions | **5.0 → 15+** (`minSdk 21`, `targetSdk 34`) |
   | CPU architectures | **all** — the shell is pure Java + WebView, so there is no `lib/` and no ABI split (armeabi-v7a, arm64-v8a, x86, x86_64 all install the same file) |
   | Screen types | phones, tablets, foldables, Chromebooks, Android TV (`LAUNCHER` + `LEANBACK_LAUNCHER` + `GAME`), windowed/multi-window, every density |
@@ -426,7 +426,7 @@ Settings: **Formation**, **Camera** — Broadcast (elevated follow) or Close
   ```
 
   `--release` reads `KEYSTORE`, `KS_PASS`, `KS_ALIAS` and `KEY_PASS` from the environment and
-  writes `Touchline-Vale-1.0.14-universal.apk`.
+  writes `Touchline-Vale-1.0-universal.apk`.
 
   **Packaging is checked, not assumed.** Android 11+ refuses to install an APK whose
   `resources.arsc` is compressed or whose `AndroidManifest.xml` is not the first zip entry, and

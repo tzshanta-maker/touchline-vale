@@ -1,6 +1,6 @@
 {
   "name": "touchline-vale",
-  "version": "1.0.14",
+  "version": "1.0.0",
   "main": "desktop/main.cjs",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
