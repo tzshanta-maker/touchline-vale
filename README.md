@@ -5,7 +5,10 @@ Built with **JavaScript + Vite + Three.js**, with every model, texture, sound an
 generated procedurally at runtime — no external or copyrighted assets are used anywhere.
 
 > Pitch Legends is an independent game. It is not affiliated with, endorsed by, or based on
-> any real league, club, footballer, or football video-game franchise.
+> any real league, club, footballer, or football-game franchise.
+
+[![Download APK](https://img.shields.io/badge/download-APK%201.0.13-3ddc84?logo=android&logoColor=white)](../../releases/latest)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 ---
 
