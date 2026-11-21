@@ -1,41 +1,9 @@
-# Putting Touchline Vale on GitHub
+# Repository notes
 
-The repo in this folder is already committed and ready to push: one commit on `main`,
-everything except `node_modules/` and `dist/` included. You only need to point it at
-your GitHub repo.
+This project lives at **<https://github.com/tzshanta-maker/touchline-vale>** — already created,
+public, and set up as the `origin` remote.
 
-## 1. Create the empty repo
-
-Go to <https://github.com/new>, name it (e.g. `touchline-vale`), and **do not** tick
-"Add a README", ".gitignore" or a licence — the folder already has content.
-Copy the URL it shows you.
-
-## 2. Point this folder at it and push
-
-Open a terminal in this folder and run these five lines, replacing the URL with yours:
-
-```
-git remote set-url origin https://github.com/YOUR-USERNAME/touchline-vale.git
-git branch -M main
-git push -u origin main
-```
-
-Git will ask for a username and password. The password **must be a Personal Access
-Token**, not your account password:
-
-1. GitHub → your avatar → **Settings** → **Developer settings** → **Personal access
-   tokens** → **Tokens (classic)** → **Generate new token**.
-2. Tick the **repo** scope, generate, and copy the token.
-3. Paste it when git asks for the password.
-
-Or use the GitHub CLI instead, which handles the login for you:
-
-```
-gh auth login
-gh repo create touchline-vale --public --source=. --remote=origin --push
-```
-
-## 3. Later changes
+## Everyday changes
 
 ```
 git add -A
@@ -43,33 +11,28 @@ git commit -m "what changed"
 git push
 ```
 
-## What is in the repo, and what is not
+## Cutting a new build
 
-| Included | Why |
-| --- | --- |
-| `src/`, `index.html`, `vite.config.js`, `package.json`, lockfile | the game itself |
-| `android/` | manifest, build script, icons — everything needed to rebuild the APK |
-| `desktop/` | Electron wrapper |
-| `tests/` | the 124-check smoke test and the packaged-file test |
-| `docs/` | screenshots used by the README |
-| `release/Touchline-Vale-1.0-universal-debug.apk` | a ready-to-install build |
+```
+npm install
+npx vite build
+export PATH=/usr/lib/jvm/jdk-11/bin:$PATH   # needs a JDK 11+
+bash android/build-apk.sh --debug --fetch-tools
+```
 
-`node_modules/` and `dist/` are ignored (rebuild with `npm install && npm run build`).
+That writes `release/Touchline-Vale-<version>-universal-debug.apk`. Bump the version in
+`package.json`, `android/AndroidManifest.xml` (`versionName` + `versionCode`) and
+`android/build-apk.sh` before building.
 
-## Two things to decide before you push
+## Tests
 
-* **The APK is in the repo (~350 KB).** Fine for a small project. If you would rather
-  keep binaries out of git, add `release/*.apk` to `.gitignore`, delete it from the
-  index with `git rm --cached release/*.apk`, and attach the APK to a GitHub *Release*
-  instead.
-* **Licence.** There is none yet. Without one, other people technically have no right
-  to reuse the code. If you want it open, add an MIT `LICENSE` file; if you want it
-  closed, say so and I will add a short "all rights reserved" notice.
+```
+(npx vite preview --port 4173 &)          # the smoke test needs a served build
+BASE_URL=http://127.0.0.1:4173/ node tests/smoke.mjs
+node tests/file-protocol.mjs <unpacked>/assets/www/index.html
+```
 
-## Publishing it as a playable page (optional)
+## Releases
 
-The web build is a static bundle, so GitHub Pages can serve it: after pushing, go to
-**Settings → Pages**, pick "Deploy from a branch", branch `main`, folder `/docs` — then
-run `npm run build` and copy the contents of `dist/` into `docs/build/`. Say the word
-and I will wire that up properly, including the base path, so the game is playable at
-`https://YOUR-USERNAME.github.io/touchline-vale/`.
+The APK is attached to a GitHub Release (currently `v1.0`). Keep the binary out of git if you
+prefer: `git rm --cached release/*.apk` and add `release/*.apk` to `.gitignore`.
